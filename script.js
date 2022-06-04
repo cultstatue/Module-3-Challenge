@@ -13,12 +13,36 @@ var upperCase = [ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M
 
 // lowercase value array
 var lowerCase = upperCase.map(letter => letter.toLowerCase());
-
 // numeric value array
-var numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-
+var numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 // special character value array
 var specialCharacter = ['?', '!', '%', '@', '&', '=', '+', '-', '#', '~']
+
+// merge all arrays
+var allValues = [...upperCase, ...lowerCase, ...numbers, ...specialCharacter];
+
+// merge upper lower and number
+var upLowNum = [...upperCase, ...lowerCase, ...numbers];
+// merge upper lower and special
+var upLowSpec = [...upperCase, ...lowerCase, ...specialCharacter];
+// merge upper num special
+var upNumSpec = [...upperCase, ...numbers, ...specialCharacter];
+// merge lower num special
+var lowNumSpec = [...lowerCase, ...numbers, ...specialCharacter];
+// merge up and low
+var upLow = [...upperCase, ...lowerCase];
+// merge up and num
+var upNum = [...upperCase, ...numbers];
+// merge up and special
+var upSpec = [...upperCase, ...specialCharacter];
+// merge low and num
+var lowNum = [...lowerCase, ...numbers];
+// merge low and spec
+var lowSpec = [...lowerCase, ...specialCharacter];
+// merge num and spec
+var numSpec = [...numbers, ...specialCharacter];
+
+
 
 
 // function to prompt password value choices
@@ -78,53 +102,69 @@ var generateValues = function(random) {
 }
 
 // function to generate password
-var d = function() {
+var generatePassword = function() {
   
   // collect prompt answers
   valuePrompt();
 
-  // evaluate password preferences 
-  if (passwordPreferences.upper) {
-
-    var upperRandom = generateValues(upperCase);
-
+  if(passwordPreferences.upper && passwordPreferences.lower && passwordPreferences.number && passwordPreferences.special) {
+    var passwordArray = generateValues(allValues);
   }
-  if (passwordPreferences.lower) {
 
-    var lowerRandom = generateValues(lowerCase);
+  else if (passwordPreferences.upper && passwordPreferences.lower && passwordPreferences.number) {
+    var passwordArray = generateValues(upLowNum);
+  }
 
+  else if (passwordPreferences.upper && passwordPreferences.lower && passwordPreferences.special) {
+    var passwordArray = generateValues(upLowSpec);
+  }
+
+  else if (passwordPreferences.upper && passwordPreferences.number && passwordPreferences.special) {
+    var passwordArray = generateValues(upNumSpec);
+  }
+
+  else if (passwordPreferences.lower && passwordPreferences.number && passwordPreferences.special) {
+    var passwordArray = generateValues(lowNumSpec);
+  }
+  else if (passwordPreferences.lower && passwordPreferences.number) {
+    var passwordArray = generateValues(lowNum);
+  }
+  else if (passwordPreferences.lower && passwordPreferences.special) {
+    var passwordArray = generateValues(lowSpec);
+  }
+  else if (passwordPreferences.upper && passwordPreferences.lower) {
+    var passwordArray = generateValues(upLow);
+  }
+  else if (passwordPreferences.upper && passwordPreferences.number) {
+    var passwordArray = generateValues(upNum);
+  }
+  else if (passwordPreferences.upper && passwordPreferences.special) {
+    var passwordArray = generateValues(upSpec);
+  }
+  else if (passwordPreferences.number && passwordPreferences.special) {
+    var passwordArray = generateValues(numSpec);
+  }
+  else if (passwordPreferences.upper) {
+    var passwordArray = generateValues(upperCase);
+  }
+  else if (passwordPreferences.lower) {
+    var passwordArray = generateValues(lowerCase);
+  }
+  else if (passwordPreferences.number) {
+    var passwordArray = generateValues(numbers);
+  }
+  else if (passwordPreferences.special) {
+    var passwordArray = generateValues(specialCharacter);
   };
 
-  if (passwordPreferences.number) {
+ var passwordFinal = (passwordArray.join(''));
 
-    var numbersRandom = generateValues(numbers);
-
-  };
-
-  if (passwordPreferences.special) {
-
-    var specialRandom = generateValues(specialCharacter);
- 
-  };
-  
-  var passwordValues = [];
-
-  passwordValues.push(upperRandom + lowerRandom + numbersRandom + specialRandom);
-
-  var filteredPasswordValues = passwordValues.filter(function(x) {
-    return x !== undefined;
-});
-
-
-  console.log(filteredPasswordValues);
-
+ return passwordFinal;
 };
 
-d();
 
-
-
-
+ 
+generatePassword();
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
@@ -140,4 +180,6 @@ function writePassword() {
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
+
+
 
