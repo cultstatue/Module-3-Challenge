@@ -1,26 +1,10 @@
-// Assignment Code
-var generateBtn = document.querySelector("#generate");
-
-// Write password to the #password input
-function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
-
-  passwordText.value = password;
-
-}
-
-// Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
-
-
 
 // random values
 var randomNumber= function(min, max) {
 
   var value = Math.floor(Math.random() * (max - min + 1) + min);
 
-  return value;
+ return value;
 
 }
 
@@ -35,7 +19,6 @@ var numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 // special character value array
 var specialCharacter = ['?', '!', '%', '@', '&', '=', '+', '-', '#', '~']
-
 
 
 // function to prompt password value choices
@@ -65,9 +48,9 @@ var valuePrompt = function() {
 
   // ask user if they want special character values
   var specialConfirm = window.confirm("Would you like to include special characters?");
-
   
-  var passwordPreferences = {
+  // setting global variables
+  passwordPreferences = {
 
     length: choosePasswordLength,
     upper: upperCaseConfirm,
@@ -75,28 +58,86 @@ var valuePrompt = function() {
     number: numberConfirm,
     special: specialConfirm,
     
-  }
-  
-  console.log(passwordPreferences);
+  };
 
-  return;
-  
 };
 
+// function to generate random values as an array
+var generateValues = function(random) {
 
+  var randomArray = [];
 
+  for (i = 0; i < passwordPreferences.length; i++) {
 
-// function to generate password
-var d = function() {
+    randomArray.push(random[randomNumber(0,(random.length - 1))]);
 
-  for (i = 0; i < passwordLength; i++) {
+  };
 
-   var randomUpperCase = upperCase[randomNumber(0,(upperCase.length - 1))];
-
-   console.log(randomUpperCase);
-
-  }
+ return randomArray;
 
 }
 
-valuePrompt();
+// function to generate password
+var d = function() {
+  
+  // collect prompt answers
+  valuePrompt();
+
+  // evaluate password preferences 
+  if (passwordPreferences.upper) {
+
+    var upperRandom = generateValues(upperCase);
+
+  }
+  if (passwordPreferences.lower) {
+
+    var lowerRandom = generateValues(lowerCase);
+
+  };
+
+  if (passwordPreferences.number) {
+
+    var numbersRandom = generateValues(numbers);
+
+  };
+
+  if (passwordPreferences.special) {
+
+    var specialRandom = generateValues(specialCharacter);
+ 
+  };
+  
+  var passwordValues = [];
+
+  passwordValues.push(upperRandom + lowerRandom + numbersRandom + specialRandom);
+
+  var filteredPasswordValues = passwordValues.filter(function(x) {
+    return x !== undefined;
+});
+
+
+  console.log(filteredPasswordValues);
+
+};
+
+d();
+
+
+
+
+
+// Assignment Code
+var generateBtn = document.querySelector("#generate");
+
+// Write password to the #password input
+function writePassword() {
+  var password = generatePassword();
+  var passwordText = document.querySelector("#password");
+
+  passwordText.value = password;
+
+}
+
+// Add event listener to generate button
+generateBtn.addEventListener("click", writePassword);
+
