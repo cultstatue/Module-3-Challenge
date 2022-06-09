@@ -1,4 +1,3 @@
-
 // random values
 var randomNumber= function(min, max) {
 
@@ -161,10 +160,6 @@ var generatePassword = function() {
 
  return passwordFinal;
 };
-
-
- 
-generatePassword();
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
